@@ -18,18 +18,27 @@
               <label for="name">Name</label>
               <input name="name" type="text" class="form-control" id="name" placeholder="Enter name">
             </div>
+            @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <div class="form-group">
               <label for="slug">Slug</label>
               <input name="slug" type="text" class="form-control" id="slug" placeholder="Enter slug">
             </div>
+            @error('slug')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <div class="form-group">
               <label>Status</label>
               <select name="status" class="form-control">
-                <option>--- Please Select ---</option>
-                <option>Show</option>
-                <option>Hide</option>
+                <option value="">--- Please Select ---</option>
+                <option value="1">Show</option>
+                <option value="0">Hide</option>
               </select>
             </div>
+            @error('status')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
           </div>
           <!-- /.card-body -->
 
@@ -42,4 +51,27 @@
 
     </div>
   </div>
+@endsection
+
+@section('my-js')
+<script type="text/javascript">
+   $(document).ready(function() {
+      $('#name').on('keypress', function(e){
+          var name = $(this).val();
+          console.log(name);
+
+          $.ajax({
+            method: 'GET', //method of form
+            url: '{{ route("admin.product_category.make_slug") }}', //action of form
+            success: function(data) {
+              console.log('data', data);
+              $('#slug').val(data.slug);
+            },
+            error: function (error){
+
+            }
+          });
+      });
+  });
+</script>
 @endsection

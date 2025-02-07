@@ -6,8 +6,11 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-            <h1>{{ $title }}</h1>
-            <h2>{{ $page }}</h2>
+          <div>
+            @if(Session::has('message'))
+              <p class="alert alert-success">{{ Session::get('message') }}</p>
+            @endif
+          </div>
           <h3 class="card-title">Product Category</h3>
         </div>
         <!-- /.card-header -->
