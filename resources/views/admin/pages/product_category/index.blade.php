@@ -6,7 +6,8 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-            {{ $title }}
+            <h1>{{ $title }}</h1>
+            <h2>{{ $page }}</h2>
           <h3 class="card-title">Product Category</h3>
         </div>
         <!-- /.card-header -->
