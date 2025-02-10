@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductCategoryStoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
     public function index(){
-        return view('admin.pages.product_category.index');
+        // $itemPerPage = env('ITEM_PER_PAGE', 3);
+        $itemPerPage = config('test.a.b.c.d.itemPerPage', 99);
+        $datas = DB::table('product_category_test')->orderBy('created_at', 'desc')->paginate($itemPerPage);
+
+        return view('admin.pages.product_category.index', ['datas' => $datas]);
     }
 
     public function create(){
@@ -34,6 +39,7 @@ class ProductCategoryController extends Controller
     }
 
     public function makeSlug(Request $request){
-        return response()->json(['slug' => 'nguyen-van-a']);
+        //use Illuminate\Support\Str;
+        return response()->json(['slug' => Str::slug($request->slug)]);
     }
 }
