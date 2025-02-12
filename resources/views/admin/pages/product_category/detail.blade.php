@@ -9,23 +9,23 @@
       <!-- general form elements -->
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Create Product Category</h3>
+          <h3 class="card-title">Update Product Category</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" method="post" action="{{ route('admin.product_category.store') }}">
+        <form role="form" method="post" action="{{ route('admin.product_category.update', ['id' => $data->id]) }}">
           @csrf
           <div class="card-body">
             <div class="form-group">
               <label for="name">Name</label>
-              <input name="name" value="{{ old('name') }}" type="text" class="form-control" id="name" placeholder="Enter name">
+              <input name="name" value="{{ old('name') ?? $data->name }}" type="text" class="form-control" id="name" placeholder="Enter name">
             </div>
             @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <div class="form-group">
               <label for="slug">Slug</label>
-              <input name="slug" value="{{ old('slug') }}" type="text" class="form-control" id="slug" placeholder="Enter slug">
+              <input name="slug" value="{{ old('slug') ?? $data->slug }}" type="text" class="form-control" id="slug" placeholder="Enter slug">
             </div>
             @error('slug')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -34,8 +34,8 @@
               <label>Status</label>
               <select name="status" class="form-control">
                 <option value="">--- Please Select ---</option>
-                <option {{ old('status') == '1' ? 'selected' : '' }} value="1">Show</option>
-                <option {{ old('status') == '0' ? 'selected' : '' }} value="0">Hide</option>
+                <option {{ $data->status == '1' ? 'selected' : '' }} value="1">Show</option>
+                <option {{ $data->status == '0' ? 'selected' : '' }} value="0">Hide</option>
               </select>
             </div>
             @error('status')
@@ -45,7 +45,7 @@
           <!-- /.card-body -->
 
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
           </div>
         </form>
       </div>

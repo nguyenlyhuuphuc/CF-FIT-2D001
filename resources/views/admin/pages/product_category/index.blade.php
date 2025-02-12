@@ -12,6 +12,15 @@
             @endif
           </div>
           <h3 class="card-title">Product Category</h3>
+          <div>
+            <br>
+            <form action="{{ route('admin.product_category.index') }}" method="get">
+              <label for="name">Name</label>
+              <input type="text" name="name" id="name" value="{{ request()->name }}">
+              <button type="submit">Search</button>
+            </form>
+          </div>
+          
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -34,7 +43,13 @@
                   <td>{{ $data->slug }}</td>
                   <td>{{ $data->status ? 'Show' : 'Hide' }}</td>
                   <td>{{ date_format(date_create($data->created_at), 'd-m-Y H:i:s') }}</td>
-                  <td></td>
+                  <td>
+                    <a href="{{ route('admin.product_category.detail', ['id' => $data->id]) }}" class="btn btn-primary">Detail</a>
+                    <form action="{{ route('admin.product_category.destroy', ['id' => $data->id]) }}" method="post">
+                      @csrf
+                      <button onclick="return confirm('Are you sure?')" class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                  </td>
                 </tr>
               @endforeach
             </tbody>
