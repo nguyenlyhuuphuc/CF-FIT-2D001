@@ -16,8 +16,14 @@
             <br>
             <form action="{{ route('admin.product_category.index') }}" method="get">
               <label for="name">Name</label>
-              <input type="text" name="name" id="name" value="{{ request()->name }}">
-              <button type="submit">Search</button>
+              <input type="text" name="name" id="name" value="{{ request()->name }}" class="form-control">
+              <label for="sort">Sort</label>
+              <select name="sort" id="sort" class="form-control">
+                <option value="">---Please Select---</option>
+                <option {{ request()->sort === 'latest' ? 'selected' : '' }} value="latest">Latest</option>
+                <option {{ request()->sort === 'oldest' ? 'selected' : '' }} value="oldest">Oldest</option>
+              </select>
+              <button class="btn btn-primary" type="submit">Search</button>
             </form>
           </div>
           
@@ -57,7 +63,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
-          {{ $datas->links() }}
+          {{ $datas->appends(request()->all())->links() }}
         </div>
       </div>
       <!-- /.card -->

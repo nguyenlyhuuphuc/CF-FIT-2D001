@@ -13,12 +13,19 @@ class ProductCategoryController extends Controller
 {
     public function index(Request $request){
         $name = $request->name ?? null;
+        $sort = $request->sort ?? 'latest';
         $itemPerPage = config('test.a.b.c.d.itemPerPage', 99);
 
-        $datas = DB::table('product_category_test')->orderBy('created_at', 'desc');
-
+        $datas = DB::table('product_category_test');
+    
         if($name){
             $datas->where('name', 'like', "%$name%");
+        }
+
+        if($sort === 'latest'){
+            $datas->orderBy('created_at', 'desc');
+        }else if($sort === 'oldest'){
+            $datas->orderBy('created_at', 'asc');
         }
 
         $datas = $datas->paginate($itemPerPage);
