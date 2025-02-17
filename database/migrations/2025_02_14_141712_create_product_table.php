@@ -29,7 +29,7 @@ return new class extends Migration
 
             //product_category_id
             $table->unsignedBigInteger('product_category_id');
-            $table->foreign('product_category_id')->references('id')->on('product_category');
+            $table->foreign('product_category_id')->references('id')->on('product_categories');
         });
     }
 
