@@ -1,0 +1,102 @@
+Laravel Migration
+
+DDL 
+php artisan make:migration pattern
+
+php artisan make:migration create_tbl_name_table
+
+function up(){
+	Schema::create('tbl_name', function (Blueprint $table){
+ 	 $table->string('name, 255)->nullable()->default('test');
+	 $table->integer('number')->default(9);
+	});
+}
+
+function down(){
+ droptable 
+}
+
+
+php artisan make:migration add_column_status_to_tbl_name_table
+
+function up(){
+	Schema::table('tbl_name', function (Blueprint $table){
+	 $table->boolean('status')->default(1);
+	});
+}
+
+down(){
+dropColumn
+}
+
+
+php artisan migrate (tu tren -> xuong, up() -> insert table 'migrations' )
+php artisan migrate:rollback (--step=1) ( duoi -> tren, down() )
+php artisan migrate:reset (rollback all)
+
+
+php artisan migrate:refresh ( php artisan migrate:reset + php artisan migrate)
+
+
+A product category
+B product
+
+
+B: Create product
+
+
+Laravel Model 
+Laravel Factory
+Laravel Seeder (Dummy Data)
+
+
+php artisan make:model ProductCategory
+
+php artisan make:factory ProductCategoryFactory
+php artisan make:factory ProductFactory
+
+
+php artisan db:seed
+
+php artisan migrate:refresh --seed
+
+
+CRUD Product Category
+
+CRUD Product (Admin)
+
+C: Create Product
+/admin/product/create
+
+Prepare template
+- View - form (create)
+- Create Route::get -> Controller -> action -> name
+- Admin\ProductController
+- function create(){ return view(''); }
+- Select option (List Product category with status = 1)
+
+Store Records
+- Create route::post('') controller -> action -> name
+- Laravel request
+- Receive data
+- Insert Data
+- Success -> return list -> flash message
+
+
+php artisan make:controller Admin\ProductController
+
+
+create() -> generate view create
+store() -> save record
+edit() -> generate view detail
+update() -> update record
+destroy() -> delete record
+index() -> show list
+
+
+Laravel Resource
+
+php artisan make:controller Admin\ProductController --resource
+
+
+
