@@ -21,7 +21,7 @@ php artisan make:migration add_column_status_to_tbl_name_table
 
 function up(){
 	Schema::table('tbl_name', function (Blueprint $table){
-	 $table->boolean('status')->default(1);
+		$table->boolean('status')->default(1);
 	});
 }
 

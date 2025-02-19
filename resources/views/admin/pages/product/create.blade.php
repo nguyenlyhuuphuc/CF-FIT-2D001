@@ -13,7 +13,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" method="post" action="{{ route('admin.product.store') }}">
+        <form role="form" method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
           @csrf
           <div class="card-body">
             <div class="form-group">
@@ -33,7 +33,8 @@
             <div class="form-group">
               <label for="short_description">Short Description</label>
               <div id="short_description_html"></div>
-              <input type="hidden" name="short_description">
+              <input type="hidden" name="short_description" id="short_description">
+              <input type="hidden" name="old_short_description" id="old_short_description" value="{{ old('short_description') }}">
             </div>
             @error('short_description')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -50,7 +51,7 @@
           
             <div class="form-group">
               <label for="image">Image</label>
-              <input name="image" type="file" id="image">
+              <input name="image[]" type="file" multiple id="image">
             </div>
             @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>
