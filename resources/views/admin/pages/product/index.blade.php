@@ -53,12 +53,13 @@
                   <td>
                     <img src="{{ sprintf('%s/%s', asset('images'), $data->image) }}" alt="{{ $data->name }}" width="150" />
                   </td>
-                  <td>{{ $data->product_category_name }}</td>
+                  <td>{{ $data->productCategory?->name }}</td>
                   <td>{{ date_format(date_create($data->created_at), 'd-m-Y H:i:s') }}</td>
                   <td>
-                    <a href="{{ route('admin.product_category.detail', ['id' => $data->id]) }}" class="btn btn-primary">Detail</a>
-                    <form action="{{ route('admin.product_category.destroy', ['id' => $data->id]) }}" method="post">
+                    <a href="{{ route('admin.product.show', ['product' => $data]) }}" class="btn btn-primary">Detail</a>
+                    <form action="{{ route('admin.product.destroy', ['product' => $data->id]) }}" method="post">
                       @csrf
+                      @method('DELETE')
                       <button onclick="return confirm('Are you sure?')" class="btn btn-danger" type="submit">Delete</button>
                     </form>
                   </td>

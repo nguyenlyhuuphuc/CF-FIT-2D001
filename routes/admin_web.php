@@ -3,27 +3,32 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Middleware\CheckIsAge18;
 use App\Models\ProductCategory;
+use Faker\Guesser\Name;
 
 Route::get('admin', function (){
     return view('admin.layout.master');
 });
 
-Route::get('admin/product_category/index', [ProductCategoryController::class, 'index'])->name('admin.product_category.index');
-
-Route::get('admin/product_category/create',[ProductCategoryController::class, 'create'])->name('admin.product_category.create');
-
-Route::post('admin/product_category/store', [ProductCategoryController::class, 'store'])->name('admin.product_category.store');
-
-Route::get('admin/product_category/slug', [ProductCategoryController::class, 'makeSlug'])->name('admin.product_category.make_slug');
-
-Route::post('admin/product_category/slug_post', [ProductCategoryController::class, 'makeSlug'])->name('admin.product_category.make_slug_post');
-
-Route::get('admin/product_category/detail/{id}', [ProductCategoryController::class, 'detail'])->name('admin.product_category.detail');
-
-Route::post('admin/product_category/update/{id}', [ProductCategoryController::class, 'update'])->name('admin.product_category.update');
-
-Route::post('admin/product_category/destroy/{id}', [ProductCategoryController::class, 'destroy'])->name('admin.product_category.destroy');
+//Product Category
+Route::prefix('admin/product_category')
+->name('admin.product_category.')
+->controller(ProductCategoryController::class)
+->group(function(){
+    Route::get('index', 'index')->name('index');
+    Route::get('create','create')->name('create');
+    Route::post('store', 'store')->name('store');
+    Route::get('slug', 'makeSlug')->name('make_slug');
+    Route::post('slug_post', 'makeSlug')->name('make_slug_post');
+    Route::get('detail/{id}', 'detail')->name('detail');
+    Route::post('update/{id}', 'update')->name('update');
+    Route::post('destroy/{id}', 'destroy')->name('destroy');
+});
 
 //Generate route 7(index, create, store, show , edit, update, destroy)
 Route::resource('admin/product', ProductController::class)->names('admin.product');
+
+Route::get('product/7-up', function(){
+    echo '<h1>7 Up</h1>';
+})->middleware(CheckIsAge18::class);

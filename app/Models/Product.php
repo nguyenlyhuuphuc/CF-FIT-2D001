@@ -20,4 +20,12 @@ class Product extends Model
     // ];
 
     protected $guarded = [];
+
+    public function productCategory(){
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
+    }
+
+    public function images(){
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
 }
