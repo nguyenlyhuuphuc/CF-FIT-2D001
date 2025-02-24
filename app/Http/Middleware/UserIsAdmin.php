@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckIsAge18
+class UserIsAdmin
 {
     /**
      * Handle an incoming request.
@@ -20,15 +19,9 @@ class CheckIsAge18
         if(!Auth::check()){
             return redirect()->route('login');
         }
-        
-        $user = Auth::user();
 
-        $dob = Carbon::createFromFormat('Y-m-d H:i:s', $user->dob);
-        
-        $age = floor($dob->diffInYears(Carbon::now()));
-
-        if($age < 18){
-            return abort(403);
+        if(!Auth::user()->role){
+            return redirect()->route('home');
         }
 
         return $next($request);
