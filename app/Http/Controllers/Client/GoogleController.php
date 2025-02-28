@@ -41,6 +41,11 @@ class GoogleController extends Controller
         // }
 
         Auth::login($userSystem);
-        return redirect()->route('home');
+
+        if($userSystem->role){
+            return redirect()->route('admin.product.index');    
+        }
+
+        return redirect()->route('index');
     }
 }

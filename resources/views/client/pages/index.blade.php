@@ -122,11 +122,11 @@
             @foreach ($products as $product)
                 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                     <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
+                        <div class="featured__item__pic set-bg" data-setbg="{{ asset('images').'/'.$product->image }}">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li data-product-id="{{ $product->id }}" class="button-add-to-cart" ><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
@@ -424,4 +424,36 @@
     </div>
 </section>
 <!-- Blog Section End -->
+@endsection
+
+
+@section('my-js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.button-add-to-cart').on('click', function(e){
+                e.preventDefault();
+                var productId = $(this).data('product-id');
+                
+                var url = '{{ route("add.product") }}';
+                url += "/" + productId;
+
+                $.ajax({
+                    url: url, //Action of form
+                    method: 'GET', //method of form
+                    success:function(response){
+                        $('.count-cart').html(response.count);
+
+                        var icon = response.status ? 'success' : 'error';
+                        Swal.fire({
+                            icon: icon,
+                            text: response.message,
+                        });
+                    },
+                    error: function(respsonse){
+                    
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

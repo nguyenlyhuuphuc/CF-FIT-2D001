@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('client_asset/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('client_asset/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('client_asset/css/style.css') }}" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -154,8 +155,11 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
+                            @php 
+                                $cart = session()->get('cart', []);
+                            @endphp
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span class="count-cart">{{ count($cart) }}</span></a></li>
                         </ul>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
                     </div>
@@ -184,6 +188,7 @@
     <script src="{{ asset('client_asset/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('client_asset/js/main.js') }}"></script>
 
+    @yield('my-js')
 
 
 </body>
