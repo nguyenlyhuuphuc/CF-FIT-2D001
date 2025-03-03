@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -87,6 +88,7 @@ class ProductController extends Controller
             'short_description' => $request->short_description,
             'qty' => $request->qty,
             'product_category_id' => $request->product_category_id,
+            'slug' => Str::slug($request->name)
             // 'image' => $fileName
         ]);
 
@@ -136,6 +138,7 @@ class ProductController extends Controller
         $product->qty = $request->qty;
         $product->short_description = $request->short_description;
         $product->product_category_id = $request->product_category_id;
+        $product->slug = Str::slug($request->name);
         $check = $product->save(); //Update record
 
         return redirect()->route('admin.product.index')->with('message', $check ? 'Update thanh cong' : 'Update that bai');

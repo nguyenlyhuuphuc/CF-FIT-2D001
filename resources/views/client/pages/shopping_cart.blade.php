@@ -35,9 +35,9 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody-cart">
                                 @foreach ($cart as $productId => $item)
-                                    <tr>
+                                    <tr id="product-{{ $productId }}">
                                         <td class="shoping__cart__item">
                                             <img src="img/cart/cart-1.jpg" alt="">
                                             <h5>{{ $item['name'] }}</h5>
@@ -47,8 +47,8 @@
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="{{ $item['qty'] }}">
+                                                <div class="pro-qty" data-product-id="{{ $productId }}">
+                                                    <input class="product-qty" type="text" value="{{ $item['qty'] }}">
                                                 </div>
                                             </div>
                                         </td>
@@ -56,7 +56,7 @@
                                             ${{ number_format($item['price'] * $item['qty'], 2) }}
                                         </td>
                                         <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
+                                            <span data-remove-url="{{ route('cart.remove.product', ['productId' => $productId]) }}" data-product-id="{{ $productId }}" class="button-remove-product icon_close"></span>
                                         </td>
                                     </tr>    
                                 @endforeach
@@ -69,8 +69,8 @@
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
                         <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
+                        <a href="#" class="primary-btn cart-btn cart-btn-right button-empty-cart"><span class="icon_close"></span>
+                            Empty Cart</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -98,4 +98,85 @@
         </div>
     </section>
     <!-- Shoping Cart Section End -->
+@endsection
+
+@section('my-js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.button-empty-cart').on('click', function(e){
+                e.preventDefault();
+        
+                $.ajax({
+                    url: "{{ route('cart.empty') }}", //Action of form
+                    method: 'GET', //method of form
+                    success:function(response){
+                        $('.count-cart').html(response.count);
+
+                        var icon = response.status ? 'success' : 'error';
+
+                        if(response.status){
+                            $('#tbody-cart').empty();
+                        }
+
+                        Swal.fire({
+                            icon: icon,
+                            text: response.message,
+                        });
+                    },
+                    error: function(respsonse){
+                    
+                    }
+                });
+            });
+
+            $('.button-remove-product').on('click', function(e){
+                e.preventDefault();
+
+                var url = $(this).data('remove-url');
+                var productId = $(this).data('product-id');
+        
+                $.ajax({
+                    url: url, //Action of form
+                    method: 'GET', //method of form
+                    success:function(response){
+                        $('.count-cart').html(response.count);
+
+                        var icon = response.status ? 'success' : 'error';
+
+                        if(response.status){
+                            $('#product-'+ productId).empty();
+                        }
+
+                        Swal.fire({
+                            icon: icon,
+                            text: response.message,
+                        });
+                    },
+                    error: function(respsonse){
+                    
+                    }
+                });
+            });
+
+            $('.qtybtn').on('click', function(){
+                var qty = parseInt($(this).siblings('.product-qty').val());
+
+                var type = $(this).hasClass('dec') ? 'decrease' : 'increase';
+
+                var productId = $(this).parent().data('product-id');
+
+                if(type === 'decrease'){
+                    qty -= 1;
+
+                    if(qty < 0){
+                        qty = 0;
+                    }
+                }else{
+                    qty += 1;
+                }
+
+                console.log('productid' + productId + 'qty'+ qty);
+            })
+        });
+    </script>
 @endsection

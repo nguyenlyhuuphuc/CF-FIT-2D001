@@ -8,12 +8,39 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function removeProduct(int $productId){
+        $cart = session('cart', []);
+
+        if(array_key_exists($productId, $cart)){
+            unset($cart[$productId]);
+        }
+
+        session()->put('cart',  $cart);
+
+        return response()->json([
+            'status' => true,
+            'count' => count($cart),
+            'message' => 'Remove product success.'
+        ]);
+    }
+
+
+    public function emptyCart(){
+        session()->put('cart',  []);
+
+        return response()->json([
+            'status' => true,
+            'count' => 0,
+            'message' => 'Remove cart success.'
+        ]);
+    }
+
     public function index(){
         $cart = session()->get('cart');
         return view('client.pages.shopping_cart', ['cart' => $cart]);
     }
 
-    public function addProducToCard(int $productId){
+    public function addProducToCart(int $productId, int $qty = 1){
         $cart = session()->get('cart', []);
 
         $product = Product::find($productId);
@@ -25,17 +52,13 @@ class CartController extends Controller
             ]);
         }
 
-        if(array_key_exists($productId, $cart)){
-            $cart[$productId]['qty'] += 1;
-        }else{
-            $cart[$productId] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'image' => asset('images').'/'.$product->image,
-                'qty' => 1,
-            ];
-        }
-
+        $cart[$productId] = [
+            'name' => $product->name,
+            'price' => $product->price,
+            'image' => asset('images').'/'.$product->image,
+            'qty' => isset($cart[$productId]['qty']) ? $cart[$productId]['qty'] + $qty : $qty,
+        ];
+    
         session()->put('cart',  $cart);
 
         return response()->json([
