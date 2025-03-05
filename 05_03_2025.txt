@@ -1,0 +1,51 @@
+
+--- Place Order ---
+-----users
+phone varchar(20)
+
+-----order
+id -> PK 
+user_id -> FK -> user(id)
+address
+noted
+subtotal 
+total
+status (pending|shipping|success|refund|reject)
+created_at
+updated_at
+
+-----order_item
+id -> PK
+order_id - >FK -> order(id)      
+product_id -> FK -> product(id)
+price
+name  
+qty 
+image                             
+created_at
+updated_at
+
+-----order_payment_method
+id -> PK
+order_id -> FK -> order(id)
+payment_method (cash, momo, vnpay,v.v...stripe)
+total
+status
+note
+reason_decline
+created_at
+updated_at
+
+
+
+1 order -> N order item
+1 order -> belongTo User
+1 order -> N payment method
+
+1 order item -> belongto Order
+1 order item -> belongto Product
+
+1 order payment method -> belongsTo order
+
+
+
