@@ -8,6 +8,33 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function checkout(){
+        $cart = session('cart', []);
+        return view('client.pages.checkout', ['cart' => $cart]);
+    }
+
+
+    public function updateCart(int $productId, int $qty) {
+        $cart = session('cart', []);
+
+        if(array_key_exists($productId, $cart)){
+            if(!$qty){
+                unset($cart[$productId]);
+            } else {
+                $cart[$productId]['qty'] = $qty;
+            }
+        }
+
+        session()->put('cart',  $cart);
+
+        return response()->json([
+            'status' => true,
+            'count' => count($cart),
+            'message' => 'Update cart success.'
+        ]);
+    }
+
+
     public function removeProduct(int $productId){
         $cart = session('cart', []);
 
@@ -36,7 +63,8 @@ class CartController extends Controller
     }
 
     public function index(){
-        $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
+
         return view('client.pages.shopping_cart', ['cart' => $cart]);
     }
 

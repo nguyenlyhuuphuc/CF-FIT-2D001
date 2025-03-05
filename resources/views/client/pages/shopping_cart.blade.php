@@ -52,7 +52,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="shoping__cart__total">
+                                        <td data-product-price="{{ $item['price'] }}" class="shoping__cart__total">
                                             ${{ number_format($item['price'] * $item['qty'], 2) }}
                                         </td>
                                         <td class="shoping__cart__item__close">
@@ -168,14 +168,40 @@
                 if(type === 'decrease'){
                     qty -= 1;
 
-                    if(qty < 0){
+                    if(qty <= 0){
                         qty = 0;
+                        $('#product-'+ productId).empty();
                     }
                 }else{
                     qty += 1;
                 }
 
-                console.log('productid' + productId + 'qty'+ qty);
+                var url = "{{ route('cart.update') }}";
+                url += "/" + productId + "/" + qty;
+
+                $.ajax({
+                    url: url, //Action of form
+                    method: 'GET', //method of form
+                    success:function(response){
+                        $('.count-cart').html(response.count);
+                        var icon = response.status ? 'success' : 'error';
+                        Swal.fire({
+                            icon: icon,
+                            text: response.message,
+                        });
+
+                        if(response.status){
+                            var total = $('tr#product-' + productId).children('.shoping__cart__total');
+                            var price = parseInt(total.data('product-price'));
+                            var totalProduct= price * qty;
+
+                            total.html("$" + totalProduct.toFixed(2));
+                        }
+                    },
+                    error: function(respsonse){
+                    
+                    }
+                });
             })
         });
     </script>

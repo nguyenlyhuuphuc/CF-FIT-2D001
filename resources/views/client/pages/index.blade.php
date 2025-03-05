@@ -451,6 +451,11 @@
                     },
                     error: function(respsonse){
                     
+                    },
+                    statusCode: {
+                        401: function() {
+                            window.location.href = "{{ route('login') }}";
+                        }
                     }
                 });
             });
