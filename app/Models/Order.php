@@ -11,6 +11,8 @@ class Order extends Model
 
     protected $table = 'order';
 
+    public $guarded = [];
+
 //     1 order -> N order item
 // 1 order -> belongTo User
 // 1 order -> N payment method

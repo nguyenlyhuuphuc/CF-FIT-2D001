@@ -1,0 +1,44 @@
+---Place ORder----
+
+- form ? method action name
+- route
+- contorller action 
+
+- Laravel request -> old, show error message
+
+- Save order, order_item, order_payment 
+- Update phone on User
+
+- send mail user - confirm order
+- send mail admin - prepare order
+- minus qty
+GG -> send mail
+
+php artisan make:mail TestMail
+
+
+
+Tet Holiday:
+- Ve que
+- Mua do Tet
+- Li xi
+- Lam them
+- Du lich
+
+
+XS-Mas:
+- di nha tho
+- di choi
+- di du lich
+
+
+Event Listener (Observer)
+
+Order sucess:
+- send mail user - confirm order --- remove
+- send mail admin - prepare order
+- minus qty
+
+Code base
+
+

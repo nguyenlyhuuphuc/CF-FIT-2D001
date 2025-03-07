@@ -36,7 +36,12 @@
                                 </tr>
                             </thead>
                             <tbody id="tbody-cart">
+                                @php $total = 0; @endphp
                                 @foreach ($cart as $productId => $item)
+                                    @php
+                                        $totalItem = $item['price'] * $item['qty'];
+                                        $total += $totalItem
+                                    @endphp
                                     <tr id="product-{{ $productId }}">
                                         <td class="shoping__cart__item">
                                             <img src="img/cart/cart-1.jpg" alt="">
@@ -88,8 +93,8 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Subtotal <span>${{ number_format($total, 2) }}</span></li>
+                            <li>Total <span>${{ number_format($total, 2) }}</span></li>
                         </ul>
                         <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
