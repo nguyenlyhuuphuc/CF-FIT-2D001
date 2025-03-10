@@ -4,6 +4,7 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\GoogleController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductController;
+use App\Jobs\TestSendMail;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -26,11 +27,20 @@ Route::get('cart/update/{productId?}/{qty?}', [CartController::class, 'updateCar
 Route::get('checkout', [CartController::class, 'checkout'])->name('checkout')->middleware('auth');
 Route::post('checkout/place-order', [CartController::class, 'placeOrder'])->name('checkout.place_order')->middleware('auth');
 
+Route::get('vnpay-callback', [CartController::class, 'vnpayCallback'])->name('vnpay.callback');
+
 //Product
 Route::get('product/{slug}', [ProductController::class, 'index'])->name('product.index');
 
-Route::get('test-send-mail', function (){
+Route::get('test-send-mail', function () {
     $user = Auth::check() ? Auth::user() : null;
 
     Mail::to('nguyenlyhuuphuc@gmail.com')->send(new TestMail($user));
 });
+
+
+Route::get('test-job', function () {
+    TestSendMail::dispatch();
+});
+
+Route::get('test-send-email', [CartController::class, 'sendEmail']);
