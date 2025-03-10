@@ -1,0 +1,55 @@
+--- Place Orer---
+(emit)
+Event : Register User Success
+
+Listener: 
+- send mail to verify account
+- send mail welcome
+- send mail promotion
+
+observe design pattern
+
+
+Event : Order Sucess
+
+Listener : 
+- Send mail to user (promotion + verify order)
+- Send mail to admin
+- Minus qty
+
+
+Event : Order Failed
+
+- Send mail to admin
+
+
+type-hint
+
+
+
+A -> B -> C -> D -> E
+
+UI/UX -> 10s -> 1 2s
+
+
+DI/DX
+
+
+
+https://sandbox.vnpayment.vn/devreg
+
+8.3
+8.2
+
+T4 12/03/2025 Classroom 
+
+T4 26/03/2025
+
+302: 18h30 (18h15 -> )
+
+1 ban thuyet trinh 15 - 20p 
+
+Attitude
+
+Laravel Queue
+
